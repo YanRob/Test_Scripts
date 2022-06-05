@@ -5,7 +5,9 @@ from bokeh.layouts import row, column
 import pandas as pd
 from bokeh.server.server import Server
 
-from bokeh.sampledata.sea_surface_temperature import sea_surface_temperature
+from dashboard import dashboard
+
+PATHNAME = "Test.xlsx"
 
 
 def bkapp(doc):
@@ -21,12 +23,12 @@ def bkapp(doc):
     plot.line('x', 'B', source=source)
 
     def update(attr, old, new):
-        df1 = df0[df0['CC'] == select.value]
+        df1 = df0[df0['C'] == select.value]
         newSource = ColumnDataSource(df1)
         source.data = newSource.data
 
-    options = list(df0['CC'].unique())
-    select = Select(title="CC", value=options[0], options=options)
+    options = list(df0['C'].unique())
+    select = Select(title="C", value=options[0], options=options)
     select.on_change('value', update)
 
     doc.add_root(column(select, plot))
@@ -68,8 +70,15 @@ def test(doc):
     doc.add_root(layout)
 
 
+def modify_doc(doc):
+    dash = dashboard.DashBoard(PATHNAME)
+    dash.create_layout()
+    doc.add_root(dash.layout)
+
+
 # server = Server({'/': test}, num_procs=1)
-server = Server({'/': bkapp}, num_procs=1)
+# server = Server({'/': bkapp}, num_procs=1)
+server = Server({'/': modify_doc})
 server.start()
 
 if __name__ == '__main__':
