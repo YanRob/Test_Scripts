@@ -72,6 +72,7 @@ def test(doc):
 
 def modify_doc(doc):
     dash = dashboard.DashBoard(PATHNAME)
+    dash.source_data()
     dash.create_layout()
     doc.add_root(dash.layout)
 
