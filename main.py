@@ -5,7 +5,12 @@ from bokeh.layouts import row, column
 import pandas as pd
 from bokeh.server.server import Server
 
+from bokeh.util import browser
+
 from dashboard import dashboard
+
+import webbrowser
+print(webbrowser._browsers)
 
 PATHNAME = "Test.xlsx"
 
